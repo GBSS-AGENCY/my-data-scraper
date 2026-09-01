@@ -2,16 +2,15 @@ name: Automated Web Scraper
 
 on:
   schedule:
-    # Runs daily at 00:00 UTC (Cron format: Min Hour Day Month DayOfWeek)
     - cron: '0 0 * * *'
-  workflow_dispatch: # Allows manual triggers directly from GitHub UI
+  workflow_dispatch:
 
 jobs:
   scrape-and-commit:
     runs-on: ubuntu-latest
     
     permissions:
-      contents: write # Grants permission to commit files back to repo
+      contents: write
 
     steps:
       - name: Checkout Repository
