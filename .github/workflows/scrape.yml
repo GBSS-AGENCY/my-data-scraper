@@ -2,12 +2,14 @@ name: Multi-Engine Dataset Automation
 
 on:
   schedule:
-    - cron: '0 0 * * 0' # Automatically runs once a week on Sunday at midnight
-  workflow_dispatch: # Allows you to manually click "Run workflow" in GitHub
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
 
 jobs:
   update-datasets:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Explicitly grants Write access to update files in the repo
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -30,6 +32,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Bot"
           git add data/*.csv
-          # The "|| exit 0" prevents the action from failing if no new assets were found
           git commit -m "Automated dataset refresh: Godot, Itch, Unity, Unreal" || exit 0
           git push
