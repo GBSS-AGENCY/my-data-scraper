@@ -2,14 +2,15 @@ name: Multi-Engine Dataset Automation
 
 on:
   schedule:
-    - cron: '0 0 * * 0'
-  workflow_dispatch:
+    - cron: '0 0 * * 0' # Runs automatically every Sunday at midnight
+  workflow_dispatch: # Allows manual trigger via the GitHub Actions UI
 
 jobs:
   update-datasets:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Explicitly grants Write access to update files in the repo
+      contents: write # Overrides Organization restrictions to grant file write access
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -22,7 +23,7 @@ jobs:
       - name: Install Python Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+          pip install curl-cffi beautifulsoup4
 
       - name: Execute Master Scraper
         run: python scraper_master.py
